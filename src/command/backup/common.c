@@ -161,8 +161,8 @@ backupLinkLatest(const String *const backupLabel, const unsigned int repoIdx)
         // -------------------------------------------------------------------------------------------------------------------------
         const String *const latestLink = storagePathP(storageRepoIdx(repoIdx), STRDEF(STORAGE_REPO_BACKUP "/" BACKUP_LINK_LATEST));
 
-        // Remove an existing latest link/file in case symlink capabilities have changed
-        storageRemoveP(storageRepoIdxWrite(repoIdx), latestLink);
+        if (storageFeature(storageRepoIdxWrite(repoIdx), storageFeatureSymLink))
+            storageRemoveP(storageRepoIdxWrite(repoIdx), latestLink);
 
         if (storageFeature(storageRepoIdxWrite(repoIdx), storageFeatureSymLink))
             storageLinkCreateP(storageRepoIdxWrite(repoIdx), backupLabel, latestLink);
